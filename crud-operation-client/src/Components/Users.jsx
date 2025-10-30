@@ -1,6 +1,7 @@
 import React from "react";
 import { use } from "react";
 import { useState } from "react";
+import { Link } from "react-router";
 
 const Users = ({ usersPromise }) => {
   const initialUsers = use(usersPromise);
@@ -31,26 +32,25 @@ const Users = ({ usersPromise }) => {
           newUser._id = data.insertedId;
           const newUsers = [...users, newUser];
           setUsers(newUsers);
-
           alert("Users Added Successfully");
-          e.target.reset();
+         e.target.reset();
         }
       });
   };
 
-  const handleDeleteUser = (id)=>{
-   fetch(`http://localhost:3000/users/${id}`, {
-    method: 'DELETE',
-   })
-   .then(res=>res.json())
-   .then(data=>{
-    if(data.deletedCount){
-        alert('Deleted Successfully')
-        const remainingUsers = users.filter(suser=> suser._id !== id);
-        setUsers(remainingUsers);
-    }
-   })
-  }
+  const handleDeleteUser = (id) => {
+    fetch(`http://localhost:3000/users/${id}`, {
+      method: "DELETE",
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.deletedCount) {
+          alert("Deleted Successfully");
+          const remainingUsers = users.filter((suser) => suser._id !== id);
+          setUsers(remainingUsers);
+        }
+      });
+  };
 
   return (
     <div>
@@ -79,8 +79,10 @@ const Users = ({ usersPromise }) => {
         {users.map((suser) => (
           <p key={suser._id}>
             {" "}
-            {suser.name} - {suser.email} <button onClick={()=> handleDeleteUser(suser._id)} >X</button>
-            <button>Update</button>
+            {suser.name} - {suser.email}{" "}
+            <button onClick={() => handleDeleteUser(suser._id)}>X</button>
+            <Link to={`/users/${suser._id}`}>Details</Link>
+            <Link to={`update/${suser._id}`}>Edit</Link>
           </p>
         ))}
       </div>
