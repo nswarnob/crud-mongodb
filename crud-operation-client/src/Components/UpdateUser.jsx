@@ -3,7 +3,7 @@ import { useLoaderData } from "react-router";
 
 const UpdateUser = () => {
   const user = useLoaderData();
-
+  console.log('loader update', user)
   const handleUpdateUser = (e) => {
     e.preventDefault();
     const name = e.target.name.value;
@@ -11,10 +11,10 @@ const UpdateUser = () => {
     const updatedUser ={name, email};
 
      //send data to the server
-     fetch(`http://localhost:3000/users${user._id}`,{
+     fetch(`http://localhost:3000/users/${user._id}`,{
         method: 'PATCH',
         headers:{
-            'Content-type': 'application/json'
+            'Content-Type': 'application/json'
         },
         body: JSON.stringify(updatedUser)
      })

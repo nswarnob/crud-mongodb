@@ -33,7 +33,7 @@ const Users = ({ usersPromise }) => {
           const newUsers = [...users, newUser];
           setUsers(newUsers);
           alert("Users Added Successfully");
-         e.target.reset();
+          setUser({ name: "", email: "" }); //e.target.reset() wasn't working cause it's controlled by react state.
         }
       });
   };
