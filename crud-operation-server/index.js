@@ -36,6 +36,13 @@ async function run() {
       const result = await usersCollection.insertOne(newUser); //database e user data set korsi
       res.send(result); //user data set korar por res pathabe client side e with (insertedId)
     });
+     
+    app.get('/users', async (req, res)=>{
+        const cursor = usersCollection.find();
+        const result = await cursor.toArray();
+        res.send(result);
+    })
+
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
