@@ -1,6 +1,6 @@
 const express = require("express");
 const cors = require("cors");
-const { MongoClient, ServerApiVersion } = require("mongodb");
+const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 const app = express();
 const port = process.env.PORT || 3000;
 
@@ -37,11 +37,21 @@ async function run() {
       res.send(result); //user data set korar por res pathabe client side e with (insertedId)
     });
      
+    //send data from user db to frontend
     app.get('/users', async (req, res)=>{
         const cursor = usersCollection.find();
         const result = await cursor.toArray();
         res.send(result);
     })
+
+   //getting id from user input delete button for remove data from db
+    app.delete('/users/:id',async(req, res)=>{
+       const id = req.params.id;
+       const query = {_id: new ObjectId(id)}; //sending user id to the db query for finding matchng id
+       const result = await usersCollection.deleteOne(query); // now matching id would be delted
+       res.send(result); //and sending response of delete to front-end with (delete count)
+    })
+    
 
 
     // Send a ping to confirm a successful connection
